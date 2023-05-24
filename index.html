@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Country Api app</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="details.css" />
+  </head>
+  <body>
+    <!-- for the head -->
+    <nav class="head">
+      <p class="head-txt">Where in the world?</p>
+      <div class="dark-light-toggle">
+        <i class="fa-solid fa-moon"></i>
+        <p class="toggle-txt">Dark Mode</p>
+      </div>
+    </nav>
+    <!-- end of head -->
+    <div class="main-content">
+      <!-- search and filter section -->
+      <div class="search-filter">
+        <div class="search">
+          <i class="fa-solid fa-search"></i>
+          <input type="text" placeholder="Search for a country..." />
+        </div>
+        <div class="filter">
+          <div class="filter-selected">
+            <p>Filter by Region</p>
+            <i class="fa-sharp fa-solid fa-chevron-down fa-beat"></i>
+          </div>
+          <!--  filter region -->
+          <div class="filter-item">
+            <!-- <p data-id="Africa">Africa</p>
+                <p data-id="America">America</p>
+                <p data-id="Asia">Asia</p>
+                <p data-id="Europe">Europe</p>
+                <p data-id="Oceania">Oceania</p> -->
+          </div>
+        </div>
+      </div>
+      <button class="btn-back">
+        <i class="fa-solid fa-arrow-left fa-beat back"></i>
+        <span class="back">Back</span>
+      </button>
+      <!-- end search and filter section -->
+      <main class="container ">
+        <!-- <img src="/ng.svg" alt="country flag" class="detailflag" />
+        <div class="countrydetail">
+          <h3 class="country-name">Nigeria</h3>
+          <div class="country-detail-name">
+            <div class="Native-name detail">
+              <p>Native Name:</p>
+              <span class="light-color">belgie</span>
+            </div>
+            <div class="detail-population detail">
+              <p>Population:</p>
+              <span class="light-color">11,319,511</span>
+            </div>
+            <div class="detail-region detail">
+              <p>Region:</p>
+              <span class="light-color">Europe</span>
+            </div>
+            <div class="detail-subregion detail">
+              <p>Sub Region:</p>
+              <span class="light-color">Western Europe</span>
+            </div>
+            <div class="detail-capital detail">
+              <p>Capital:</p>
+              <span class="light-color">belgie</span>
+            </div>
+          </div>
+          <div class="country-current">
+            <div class="detail-top detail">
+              <p>Top Level Domain:</p>
+              <span class="light-color">belgie</span>
+            </div>
+            <div class="detail-currencies detail">
+              <p>Currencies:</p>
+              <span class="light-color">belgie</span>
+            </div>
+            <div class="detail-language detail">
+              <p>Languages:</p>
+              <span class="light-color">belgie,german,french</span>
+            </div>
+          </div>
+          <div class="country-relative">
+            <p>Border Countries:</p>
+            <span class="border-name">France</span>
+            <span class="border-name">Germany</span>
+            <span class="border-name">Netherlands</span>
+          </div>
+        </div> -->
+      </main>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
