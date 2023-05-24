@@ -25,6 +25,9 @@ body{
 .white{
   background-color: white;
 }
+::-webkit-scrollbar{
+  display: none;
+}
  /***** HEAD *****/
 .head{
     display: flex;
