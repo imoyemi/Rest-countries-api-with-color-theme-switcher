@@ -51,88 +51,13 @@ function displayItem(items){
         items.addEventListener('click',displayDetails)
     })
 }
+
 // ********* DISPLAY ALL COUNTRIES IN HOME ********
 const displayHome = async ()=>{
     const data = await getCountryData()
     displayItem(data)
 }
-//********** FILTER COUNTRIES BY REGION ********
-const openFilter = ()=>{
-    if(!filterItem.classList.contains('show')){
-        filterItem.classList.add('show')
-    }else{
-        filterItem.classList.remove('show')
-    }
-}
-const filterByRegion = async (e) =>{
-    filterItem.classList.remove('show')
-   const data = await getCountryData()
-   const region = e.target.dataset.id
-   const regionItem = data.filter(item=>{
-    if(item.region === region){
-        return item
-    }
-   })
-   
-   if(region === "All"){
-    displayItem(data)
-    // filterSelected.innerHTML =` <p>Filter by Region</p>
-    // <i class="fa-sharp fa-solid fa-chevron-down fa-beat"></i>`
-   }
-   else{
-    displayItem(regionItem)
-    // filterSelected.innerHTML =` <p>${region}</p>
-    // <i class="fa-sharp fa-solid fa-chevron-down fa-beat"></i>`
-   }
-}
-//**********DISPLAY FILTER ITEM BTN********
-const Filterbtn = async ()=>{
-    const data = await getCountryData()
-    const btns = data.reduce((value,item)=>{
-        if(!value.includes(item.region)){
-          value.push(item.region)
-        }
-        return value
-    },["All"])
-    const btn = btns.map(item=>{
-        return `<p data-id="${item}">${item}</p>`
-    }).join('')
-    filterItem.innerHTML = btn
-    filterItem.querySelectorAll('p').forEach(item=>{
-        item.addEventListener('click',filterByRegion)
-    })
 
-}
-
-// ********* SEARCH FOR COUNTRIES********
-const searchCountry = async (e)=>{
-    const data = await getCountryData()
-    const inputText = firstLower(e.target.value)
-    const regionItem = data.filter(item=>{
-        if(firstLower(item.name).indexOf(inputText) !== -1 ){
-            return item
-        }
-       })
-      if(!searchInput.value){
-        displayItem(data)
-        filterSelected.innerHTML =` <p>Filter by Region</p>
-        <i class="fa-sharp fa-solid fa-chevron-down fa-beat"></i>`
-      }
-      else{
-          displayItem(regionItem)
-      }
-      console.log(inputText)
-}
-
-
-// ********* DISPLAY FILTER ALPHABETIC ORDER ********
-// function displayAlphabeticOrder(arr) {
-  //     const sortedArr = arr.sort();
-  //     for (let i = 0; i = 1; i++) {
-    //      return sortedArr[i]
-    //     }
-    //   }
-    
     // ********* DISPLAY DETAILS ********
     const displayDetails = async (e)=>{
       const countryName = e.currentTarget.querySelector('h3').textContent
@@ -184,18 +109,151 @@ const searchCountry = async (e)=>{
           <p>Border Countries:</p>
           </div>
           </div>`
-          item.borders.forEach(item=>{
-            const span = document.createElement('span')
-            span.textContent = item
-            span.classList.add('border-name')
-            document.querySelector('.country-relative').appendChild(span)
-          })
+
+          if(item.hasOwnProperty('borders')){
+            item.borders.forEach(item=>{
+              const span = document.createElement('span')
+              span.textContent = item
+              span.classList.add('border-name')
+              document.querySelector('.country-relative').appendChild(span)
+            })
+          }
+          else{
+            document.querySelector('.country-relative').innerHTML = `<p>Border Countries:</p>
+             <span class='border-name'>None</span>`
+          }
         }
       })
       displayMain.classList.add('for-detail')
       document.querySelector('.search-filter').style.display = "none"
       backbtn.style.display = "block"
+      detailMode()
     }
+
+//********** FILTER COUNTRIES BY REGION ********
+const openFilter = ()=>{
+    if(!filterItem.classList.contains('show')){
+        filterItem.classList.add('show')
+    }else{
+        filterItem.classList.remove('show')
+    }
+}
+const filterByRegion = async (e) =>{
+    filterItem.classList.remove('show')
+   const data = await getCountryData()
+   const region = e.target.dataset.id
+   const regionItem = data.filter(item=>{
+    if(item.region === region){
+        return item
+    }
+   })
+   
+   if(region === "All"){
+    displayItem(data)
+    // filterSelected.innerHTML =` <p>Filter by Region</p>
+    // <i class="fa-sharp fa-solid fa-chevron-down fa-beat"></i>`
+   }
+   else{
+    displayItem(regionItem)
+    // filterSelected.innerHTML =` <p>${region}</p>
+    // <i class="fa-sharp fa-solid fa-chevron-down fa-beat"></i>`
+   }
+   whiteMode()
+   detailMode()
+}
+//**********DISPLAY FILTER ITEM BTN********
+const Filterbtn = async ()=>{
+    const data = await getCountryData()
+    const btns = data.reduce((value,item)=>{
+        if(!value.includes(item.region)){
+          value.push(item.region)
+        }
+        return value
+    },["All"])
+    const btn = btns.map(item=>{
+        return `<p data-id="${item}">${item}</p>`
+    }).join('')
+    filterItem.innerHTML = btn
+    filterItem.querySelectorAll('p').forEach(item=>{
+        item.addEventListener('click',filterByRegion)
+    })
+}
+
+// ********* SEARCH FOR COUNTRIES********
+const searchCountry = async (e)=>{
+    const data = await getCountryData()
+    const inputText = firstLower(e.target.value)
+    const regionItem = data.filter(item=>{
+        if(firstLower(item.name).indexOf(inputText) !== -1 ){
+            return item
+        }
+       })
+      if(!searchInput.value){
+        displayItem(data)
+        filterSelected.innerHTML =` <p>Filter by Region</p>
+        <i class="fa-sharp fa-solid fa-chevron-down fa-beat"></i>`
+      }
+      else{
+          displayItem(regionItem)
+      }
+      whiteMode()
+      detailMode()
+}
+
+
+// ********* DISPLAY FILTER ALPHABETIC ORDER ********
+// function displayAlphabeticOrder(arr) {
+  //     const sortedArr = arr.sort();
+  //     for (let i = 0; i = 1; i++) {
+    //      return sortedArr[i]
+    //     }
+    //   }
+    
+     // ********* DARK MODE AND LIGHT ********
+     const toggle = ()=>{
+      if(head.style.backgroundColor !== "var(--color-white)"){
+          body.style.backgroundColor = "hsl(0,0%,98%)"
+          head.style.backgroundColor = "var(--color-white)"
+          head.style.boxShadow = ' 0px 0px 20px  hsl(0, 0%, 70%)'
+          head.style.color = 'hsl(200, 15%, 8%)'
+          search.style.backgroundColor = "var(--color-white)"
+          search.style.boxShadow = ' 0px 0px 20px  hsl(0, 0%, 70%)'
+          search.querySelector('i').style.color = "hsl(0, 0%, 52%)"
+          searchInput.setAttribute('id','add')
+          searchInput.style.backgroundColor = "var(--color-white)"
+          searchInput.style.color = "hsl(0, 0%, 52%)"
+          filterSelected.style.backgroundColor = "var(--color-white)"
+          filterSelected.style.boxShadow = ' 0px 0px 20px  hsl(0, 0%, 70%)'
+          filterSelected.style.color = 'hsl(200, 15%, 8%)'
+          filterItem.style.backgroundColor = "var(--color-white)"
+          filterItem.style.color = "hsl(200, 15%, 8%)"
+          darkLightBtn.innerHTML = `<i class="fa-solid fa-moon"></i>
+          <p class="toggle-txt">Light Mode</p>`
+      }
+      else{
+       
+          body.style.backgroundColor = "hsl(207, 26%, 17%)"
+          head.style.backgroundColor = "var(--dark-blue-element)"
+          head.style.boxShadow = "var(--shadow)"
+          head.style.color = 'var(--color-white)'
+          search.style.backgroundColor = "var(--dark-blue-element)"
+          search.style.boxShadow = "var(--shadow)"
+          search.querySelector('i').style.color = "var(--color-white)"
+          searchInput.removeAttribute('id','add')
+          searchInput.style.backgroundColor = "var(--dark-blue-element)"
+          searchInput.style.color = "var(--color-white)"
+          filterSelected.style.backgroundColor = "var(--dark-blue-element)"
+          filterSelected.style.boxShadow = "var(--shadow)"
+          filterSelected.style.color = 'var(--color-white)'
+          filterItem.style.backgroundColor = "var(--dark-blue-element)"
+          filterItem.style.color = "var(--color-white)"
+          darkLightBtn.innerHTML = `<i class="fa-solid fa-moon"></i>
+           <p class="toggle-txt">Dark Mode</p>`
+      }
+      whiteMode()
+      detailMode()
+  }
+    
     // *********BACK BTN ********
     const displaybtn = async ()=>{
       const data = await getCountryData()
@@ -203,87 +261,68 @@ const searchCountry = async (e)=>{
       displayMain.classList.remove('for-detail')
       document.querySelector('.search-filter').style.display = "flex"
       backbtn.style.display = "none"
+      whiteMode()
+      detailMode()
     }
-    
- // ********* DARK MODE AND LIGHT ********
-    const toggle = ()=>{
-        if(head.style.backgroundColor !== "var(--color-white)"){
-            displayMain.querySelectorAll("article").forEach(item=>{
-                item.style.backgroundColor ="var(--color-white)"
-                item.style.boxShadow = '0px 0px 20px  hsl(0, 0%, 70%)'
-                item.querySelector('h3').style.color = "hsl(200, 15%, 8%)"
-                item.querySelectorAll('p').forEach(items=>items.style.color = "hsl(200, 15%, 8%)")
-            })
-            body.style.backgroundColor = "hsl(0,0%,98%)"
-            head.style.backgroundColor = "var(--color-white)"
-            head.style.boxShadow = ' 0px 0px 20px  hsl(0, 0%, 70%)'
-            head.style.color = 'hsl(200, 15%, 8%)'
-            search.style.backgroundColor = "var(--color-white)"
-            search.style.boxShadow = ' 0px 0px 20px  hsl(0, 0%, 70%)'
-            search.querySelector('i').style.color = "hsl(0, 0%, 52%)"
-            searchInput.setAttribute('id','add')
-            searchInput.style.backgroundColor = "var(--color-white)"
-            searchInput.style.color = "hsl(0, 0%, 52%)"
-            filterSelected.style.backgroundColor = "var(--color-white)"
-            filterSelected.style.boxShadow = ' 0px 0px 20px  hsl(0, 0%, 70%)'
-            filterSelected.style.color = 'hsl(200, 15%, 8%)'
-            filterItem.style.backgroundColor = "var(--color-white)"
-            filterItem.style.color = "hsl(200, 15%, 8%)"
-            darkLightBtn.innerHTML = `<i class="fa-solid fa-moon"></i>
-            <p class="toggle-txt">Light Mode</p>`
-            backbtn.style.backgroundColor = "var(--color-white)"
-            backbtn.style.boxShadow = ' 0px 0px 20px  hsl(0, 0%, 70%)'
-            backbtn.style.color = "hsl(200, 15%, 8%)"
-            displayMain.querySelector('img').style.boxShadow = '0px 0px 20px  hsl(0, 0%, 70%)'
-            displayMain.querySelector('.country-name').style.color = 'hsl(200, 15%, 8%)'
-            displayMain.querySelectorAll('p').forEach(item=>{
-              item.style.color = 'hsl(200, 15%, 8%)'
-            })
-            displayMain.querySelectorAll('.border-name').forEach(item=>{
-              item.style.color = 'hsl(200, 15%, 8%)'
-              item.style.backgroundColor = "var(--color-white)"
-              item.style.boxShadow = '0px 0px 20px  hsl(0, 0%, 70%)'
-            })
-        }
-        else{
-            displayMain.querySelectorAll("article").forEach(item=>{
-                item.style.backgroundColor ="var(--dark-blue-element)"
-                item.style.boxShadow = 'var(--shadow)"'
-                item.querySelector('h3').style.color = "var(--color-white)"
-                item.querySelectorAll('p').forEach(items=>items.style.color = "var(--color-white)")
-            })
-            body.style.backgroundColor = "hsl(207, 26%, 17%)"
-            head.style.backgroundColor = "var(--dark-blue-element)"
-            head.style.boxShadow = "var(--shadow)"
-            head.style.color = 'var(--color-white)'
-            search.style.backgroundColor = "var(--dark-blue-element)"
-            search.style.boxShadow = "var(--shadow)"
-            search.querySelector('i').style.color = "var(--color-white)"
-            searchInput.removeAttribute('id','add')
-            searchInput.style.backgroundColor = "var(--dark-blue-element)"
-            searchInput.style.color = "var(--color-white)"
-            filterSelected.style.backgroundColor = "var(--dark-blue-element)"
-            filterSelected.style.boxShadow = "var(--shadow)"
-            filterSelected.style.color = 'var(--color-white)'
-            filterItem.style.backgroundColor = "var(--dark-blue-element)"
-            filterItem.style.color = "var(--color-white)"
-            darkLightBtn.innerHTML = `<i class="fa-solid fa-moon"></i>
-             <p class="toggle-txt">Dark Mode</p>`
-             backbtn.style.backgroundColor = "var(--dark-blue-element)"
-             backbtn.style.boxShadow = 'var(--shadow)'
-             backbtn.style.color = "var(--color-white)"
-             displayMain.querySelector('img').style.boxShadow = 'var(--shadow)'
-             displayMain.querySelector('.country-name').style.color = 'var(--color-white)'
-             displayMain.querySelectorAll('p').forEach(item=>{
-               item.style.color = 'var(--color-white)'
-             })
-             displayMain.querySelectorAll('.border-name').forEach(item=>{
-               item.style.color = 'var(--color-white)'
-               item.style.backgroundColor = "var(--dark-blue-element)"
-               item.style.boxShadow = 'var(--shadow)'
-             })
-        }
+// ********* HOME DISPLAY LIGHT MODE ********
+    function whiteMode(){
+      if(head.style.backgroundColor !== "var(--color-white)"){
+      displayMain.querySelectorAll("article").forEach(item=>{
+        item.style.backgroundColor ="var(--dark-blue-element)"
+        item.style.boxShadow = 'var(--shadow)"'
+        item.querySelector('h3').style.color = "var(--color-white)"
+        item.querySelectorAll('p').forEach(items=>items.style.color = "var(--color-white)")
+        item.querySelectorAll('.countryflag').forEach(items=>items.style.boxShadow = 'var(--shadow)')
+    })
+      }
+      else{
+        displayMain.querySelectorAll("article").forEach(item=>{
+          item.style.backgroundColor ="var(--color-white)"
+          item.style.boxShadow = '0px 0px 20px  hsl(0, 0%, 70%)'
+          item.querySelector('h3').style.color = "hsl(200, 15%, 8%)"
+          item.querySelectorAll('p').forEach(items=>items.style.color = "hsl(200, 15%, 8%)")
+          item.querySelectorAll('.countryflag').forEach(items=>items.style.boxShadow = '0px 0px 20px  hsl(0, 0%, 70%)')
+      })
+      }
     }
+
+ // ********* FOR DETAILS ********
+ function detailMode(){
+  if(head.style.backgroundColor !== "var(--color-white)" &&
+    backbtn.style.display === "block"){
+    backbtn.style.backgroundColor = "var(--dark-blue-element)"
+    backbtn.style.boxShadow = 'var(--shadow)'
+    backbtn.style.color = "var(--color-white)"
+    displayMain.querySelector('.detailflag').style.boxShadow = 'var(--shadow)'
+    document.querySelector('.country-name').style.color = 'var(--color-white)'
+    displayMain.querySelectorAll('p').forEach(item=>{
+      item.style.color = 'var(--color-white)'
+    })
+    displayMain.querySelectorAll('.border-name').forEach(item=>{
+      item.style.color = 'var(--color-white)'
+      item.style.backgroundColor = "var(--dark-blue-element)"
+      item.style.boxShadow = 'var(--shadow)'
+    })
+  }
+  else if (head.style.backgroundColor === "var(--color-white)" &&
+  backbtn.style.display === "block"){
+    backbtn.style.backgroundColor = "var(--color-white)"
+    backbtn.style.boxShadow = ' 0px 0px 20px  hsl(0, 0%, 70%)'
+    backbtn.style.color = "hsl(200, 15%, 8%)"
+    document.querySelector('.country-name').style.color = 'hsl(200, 15%, 8%)'
+    displayMain.querySelector('.detailflag').style.boxShadow = '0px 0px 20px  hsl(0, 0%, 70%)'
+    displayMain.querySelectorAll('p').forEach(item=>{
+      item.style.color = 'hsl(200, 15%, 8%)'
+    })
+    displayMain.querySelectorAll('.border-name').forEach(item=>{
+      item.style.color = 'hsl(200, 15%, 8%)'
+      item.style.backgroundColor = "var(--color-white)"
+      item.style.boxShadow = '0px 0px 20px  hsl(0, 0%, 70%)'
+    })
+  }
+}
+
+
 
 // ********* ADDING COMMA ********
 function addComma(number) {

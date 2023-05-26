@@ -30,7 +30,7 @@ color: rgba(255, 255, 255,0.5);
 .detailflag{
     width: 100%;
     object-fit: cover;
-    box-shadow: var(--shadow);
+    /* box-shadow: var(--shadow); */
 }
 
 .countrydetail{
