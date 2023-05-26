@@ -228,7 +228,7 @@ const searchCountry = async (e)=>{
           filterItem.style.backgroundColor = "var(--color-white)"
           filterItem.style.color = "hsl(200, 15%, 8%)"
           darkLightBtn.innerHTML = `<i class="fa-solid fa-moon"></i>
-          <p class="toggle-txt">Light Mode</p>`
+          <p class="toggle-txt">Dark Mode</p>`
       }
       else{
        
@@ -248,7 +248,7 @@ const searchCountry = async (e)=>{
           filterItem.style.backgroundColor = "var(--dark-blue-element)"
           filterItem.style.color = "var(--color-white)"
           darkLightBtn.innerHTML = `<i class="fa-solid fa-moon"></i>
-           <p class="toggle-txt">Dark Mode</p>`
+          <p class="toggle-txt">Light Mode</p>`
       }
       whiteMode()
       detailMode()
